@@ -1,0 +1,224 @@
+.imgGalleryGrid>div {
+    background-size: cover;
+    position: relative;
+}
+
+.imgGalleryGrid .galColLink {
+    position: relative;
+}
+.imgGalleryGrid .galColLink span{
+    display: block;
+    line-height: 1.7;
+}
+.imgGalleryGrid .galColLink::after{
+    content: '';
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    z-index: 1;
+    left: 0;
+    top: 0;
+    background: rgba(0,0,0,.77);
+    -webkit-transition: all .3s ease-in;
+    transition: all .3s ease-in;
+    opacity: .9;
+    background: transparent;
+    background: -webkit-gradient(left top,left bottom,color-stop(0,transparent),color-stop(23%,transparent),color-stop(29%,rgba(0,0,0,.06)),color-stop(100%,rgba(0,0,0,.74)));
+    background: -webkit-linear-gradient(top,transparent,transparent 23%,rgba(0,0,0,.06) 29%,rgba(0,0,0,.74));
+    background: linear-gradient(180deg,transparent 0,transparent 23%,rgba(0,0,0,.06) 29%,rgba(0,0,0,.74));
+    filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#000000',endColorstr='#000000',GradientType=0);
+}
+.imgGalleryGrid .galColLink::before{
+    content: '';
+    -webkit-transition: all .3s ease-in-out;
+    transition: all .3s ease-in-out;
+    background: rgba(52,87,110,0.74);
+    background: -moz-linear-gradient(45deg, rgba(52,87,110,0.74) 0%, rgba(128,150,164,0.74) 100%);
+    background: -webkit-gradient(left bottom, right top, color-stop(0%, rgba(52,87,110,0.74)), color-stop(100%, rgba(128,150,164,0.74)));
+    background: -webkit-linear-gradient(45deg, rgba(52,87,110,0.74) 0%, rgba(128,150,164,0.74) 100%);
+    background: -o-linear-gradient(45deg, rgba(52,87,110,0.74) 0%, rgba(128,150,164,0.74) 100%);
+    background: -ms-linear-gradient(45deg, rgba(52,87,110,0.74) 0%, rgba(128,150,164,0.74) 100%);
+    background: linear-gradient(45deg, rgba(52,87,110,0.74) 0%, rgba(128,150,164,0.74) 100%);
+    filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#34576e', endColorstr='#8096a4', GradientType=1 );
+    z-index: 6;
+    opacity: 0;
+    z-index: 2;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    position: absolute;
+}
+
+.imgGalleryGrid .galColLink:hover::before{
+    opacity: 0.45;
+}
+.imgGalleryGrid .galColLink .title1{
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    background:#fdfcfa;
+    padding: 15px 15px;
+    max-width: 61%;
+    z-index: 4;
+    color: #1d1d1d;
+}
+
+.imgGalleryGrid .galColLink .title2{
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    max-width: 100%;
+    padding: 15px 15px;
+    width: 100%;
+    z-index: 4;
+    color: #fff;
+}
+.imgGalleryGrid .galColLink .titleRight{left: auto;right: 0;}
+.imgGalleryGrid {
+    display: -ms-grid;
+    display: grid;
+    -ms-grid-columns: (1fr)[4];
+    grid-template-columns: repeat(4, 1fr);
+    grid-gap: 6px;
+    /* grid-auto-rows: minmax(100px, auto); */
+}
+
+.imgGalleryGrid .one {
+    -ms-grid-column-span: 2;
+    -ms-grid-column: 1;
+    grid-column: 1/ span 2;
+    -ms-grid-row: 1;
+    -ms-grid-row-span: 2;
+    grid-row: 1/3;
+    
+}
+
+.imgGalleryGrid .two {
+    -ms-grid-column: 3;
+    -ms-grid-column-span: 1;
+    grid-column: 3 / 4;
+    -ms-grid-row: 1;
+    grid-row: 1 / 1;
+    
+}
+
+.imgGalleryGrid .three {
+    -ms-grid-column: 4;
+    grid-column: 4 / 4;
+    -ms-grid-row: 1;
+    grid-row: 1 / 1;
+    
+}
+
+.imgGalleryGrid .four {
+    -ms-grid-column: 1;
+    -ms-grid-column-span: 1;
+    grid-column: 1 / 2;
+    -ms-grid-row: 3;
+    -ms-grid-row-span: 1;
+    grid-row: 3/4;
+    
+}
+
+.imgGalleryGrid .five {
+
+    -ms-grid-column: 2;
+
+    -ms-grid-column-span: 1;
+
+    grid-column: 2 / 3;
+    -ms-grid-row: 3;
+    grid-row: 3;
+   
+}
+
+.imgGalleryGrid .six {
+    -ms-grid-column-span: 2;
+    -ms-grid-column: 3;
+    grid-column: 3/ span 2;
+    -ms-grid-row: 2;
+    -ms-grid-row-span: 2;
+    grid-row: 2/4;
+    
+}
+
+.imgGalleryGrid .one, .imgGalleryGrid .two, .imgGalleryGrid .three, .imgGalleryGrid .four, .imgGalleryGrid .five, .imgGalleryGrid .six{
+    background-size: cover;
+}
+
+.imgGalleryGrid .two .galColLink, .imgGalleryGrid .three .galColLink, .imgGalleryGrid .four .galColLink, .imgGalleryGrid .five .galColLink{
+    padding-top: 67%;
+    display: block;
+}
+.imgGalleryGrid .one .galColLink, .imgGalleryGrid .six .galColLink{
+    padding-top: 66%;
+    display: block;
+}
+
+.ie11 .imgGalleryGrid .galColLink{
+    border:3px solid #fff;
+}
+
+
+.edge .morph-wrap, .ie11 .morph-wrap{
+    -webkit-transform:translateY(-150px) rotate(360deg);
+          transform:translateY(-150px)  rotate(360deg);
+
+}
+
+.edge .bodyScrolled .morph-wrap, .ie11 .bodyScrolled .morph-wrap{
+    -webkit-transform:translateY(0px) rotate(360deg);
+          transform:translateY(0px)  rotate(360deg);
+
+}
+.logoChangerWrap{
+    position: relative;
+    width: 220px;
+    height: 120px;
+}
+.logoChangerWrap >a {position: absolute;top: 0;left:30px;display: block;width: 100%;height: 100%;transition:all 0.3s ease-in-out;opacity: 0;visibility: hidden;z-index: 1;}
+.logoChangerWrap >a.active{opacity: 1;z-index: 2;visibility: visible;}
+.logoChangerWrap >a img{max-width: 100%;max-height: 100%;width: auto;height: auto;position: absolute;top: 10%;}
+.logoChangerWrap >a.logo-medium img{max-height: 95%;}
+
+.logoChangerWrap.secondaryLogo {height: 80px;}
+.logoChangerWrap.secondaryLogo > a img{top: 0;}
+#toTop:hover { background: rgb(52, 87, 110);}
+
+
+
+
+
+html[dir=rtl] .logoChangerWrap >a {right:30px;left:auto;}
+
+html[dir=rtl].ie11 .homeBanner .wave {
+    background: url('../images/wave-bg1_ar.png') left top no-repeat;
+    right: auto;
+    left: -79px;
+}
+html.edge .logoChangerWrap >a img, html.ie11 .logoChangerWrap >a img{
+    max-height: 120px;
+    width: auto;
+}
+
+@media only screen and (max-width: 768px) {
+
+    .imgGalleryGrid {display: block;}
+    .imgGalleryGrid > div{display: block;}
+    .imgGalleryGrid .galColLink{padding-top: 66% !important;}
+    .imgGalleryGrid .galColLink::before{
+        opacity: 0;
+    }
+    .imgGalleryGrid .galColLink::after{
+        opacity: 0.15;
+    }
+    .imgGalleryGrid .galColLink .title2, .imgGalleryGrid .galColLink .title1{
+        left: 0;
+        right: 0;
+        max-width: 100%;
+        width: 100%;
+        background:#fbfcfc;
+        color: #000;
+    }
+}
