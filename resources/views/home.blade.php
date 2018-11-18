@@ -1139,11 +1139,11 @@
                             timeout: 30000,
                             success: function (data) {
                                 alert(data);
-                                return true;
+                                return false;
                             },
                         });
                     }
-                    return true; 
+                    return false; 
                 }
                     },
 

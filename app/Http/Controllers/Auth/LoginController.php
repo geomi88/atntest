@@ -6,8 +6,7 @@ use App\Http\Controllers\Controller;
 use Illuminate\Foundation\Auth\AuthenticatesUsers;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Http\Request;
-use Response;
-
+use Illuminate\Http\Response;
 class LoginController extends Controller
 {
     /*
@@ -42,11 +41,12 @@ class LoginController extends Controller
 
     public function login(Request $request)
     {
+        
         $credentials = $request->only('email', 'password');
 
         if (Auth::attempt($credentials)) {
             // Authentication passed...
-            return response(['success' => true]);
+            return response(['success' => true, Response::HTTP_OK]);
         }
         /*if($authSuccess) {
             $request->session()->regenerate();
