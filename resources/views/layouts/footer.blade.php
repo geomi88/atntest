@@ -15,11 +15,6 @@
 </footer>
 
 
-<script src="{{ asset('dist/scripts/bundle.min.js') }}"></script>
-<!-- ONLY IN HOME PAGE -->
-<!-- <script src="dist/scripts/loader.js"></script> -->
-<!-- ONLY IN HOME PAGE -->
-
 <script src="{{ asset('dist/scripts/app.min.js') }}"></script>
 <!--  <script src="dist/scripts/register-popup.js"></script>-->
 

@@ -19,11 +19,8 @@
         <link rel="stylesheet" type="text/css" href="{{ asset('dist/styles/fonts.css') }}" media="none" onload="this.media='all';"> 
         <link rel="stylesheet" href="{{ asset('dist/styles/main.min.css?110') }}">
         <link rel="stylesheet" href="{{ asset('dist/styles/developer.css?100') }}">
-        
-        <script src="{{ asset('dist/scripts/bundle.min.js') }}"></script>
-        <script src="http://ajax.aspnetcdn.com/ajax/jquery.validate/1.11.1/jquery.validate.min.js"></script>
 
-        <meta name="csrf-token" content="{{ csrf_token() }}">
+     
 
         <!--<link rel="preload" as="image" href="dist/images/logo-orange.svg" >-->
 
@@ -46,7 +43,7 @@
             if (!supportsCssVars()) alert('You are using outdated browser. upgrade your browser to improve your experience.')
        </script>
     </head>
-    <body class="loading">
+    <body class="">
 
 
     <!--[if lt IE 8]>
@@ -100,89 +97,16 @@
             
         </ul>   
     </div><!-- social media -->
-    <!-- FLOATING -->    
+    <!-- FLOATING -->      
+
+    @include('layouts.header') 
+
+        @yield('content')
+
+    @include('layouts.footer')
+
     
-    <header id="header">
+    </body>
+    </html>
 
-            <nav class="navbar navbar-custom mainNavBar" role="navigation">
-                <!-- Demo navbar -->
-                <div class="yamm">
-
-
-                  <div class="container">
-                    <div class="navbar-header">
-                        <button type="button" data-toggle="collapse" data-target="#navbar-collapse-1" class="navbar-toggle">
-                            <span class="icon-bar"></span>
-                            <span class="icon-bar"></span>
-                            <span class="icon-bar"></span>
-                        </button>
-                        <div class="navbar-brand logoChangerWrap">
-                          <a href="index.php" class="navbar-brand-img active">
-                              <img title="Youth 101 dubai" src="{{ asset('dist/images/youth-101-logo.svg') }}">
-                          </a>
-                          <a target="_blank" href="http://youth.gov.ae/" class="navbar-brand-img logo-medium">
-                              <img title="Youth 101 dubai" src="{{ asset('dist/images/logo_uae-en.svg') }}">
-                          </a>
-                        </div>
-                        <div class="secondaryLogo logoChangerWrap">
-                          <a href="index.php" class="secondaryLogoImg active">
-                              <img alt="logo" title="Youth 101 dubai" src="{{ asset('dist/images/youth-101-logo.svg') }}">
-                          </a>
-                          <a href="index.php" class="secondaryLogoImg">
-                              <img alt="logo" title="Youth 101 dubai" src="{{ asset('dist/images/logo_uae-en.svg') }}">
-                          </a>
-                        </div>
-
-                        <!-- <a href="index.php" class="navbar-brand">
-                            <img title="web design dubai" src="dist/images/youth-101-logo.svg">
-                        </a>
-                        <a href="index.php" class="secondaryLogo">
-                            <img alt="logo" title="web design dubai" src="dist/images/youth-101-logo.svg">
-                        </a> -->
-
-                        
-                    </div>
-                    <div class="menu-bars" data-toggle="collapse" data-target="#navbar-collapse-1" class="navbar-toggle">
-                      <span>Menu</span>
-                      <span class="menuDot"></span>
-                      <span class="menuDot"></span>
-                      <span class="menuDot"></span>
-                    </div>
-                    <div id="navbar-collapse-1" class="navbar-collapse collapse">
-                      <ul class="nav navbar-nav mainNav">
-
-                        <!-- Classic dropdown -->
-                        
-                        <li class="active-main-menu"><a class="scroll" data-href="#content"  href="#content">Home</a></li>
-                        <li><a class="scroll"  href="#about" data-href="#about">About</a></li>
-                        <li><a class="scroll"  href="#digital101" data-href="#digital101">Digital 101</a></li>
-                        <li><a class="scroll" href="#upcomingSessions" data-href="#upcomingSessions">Upcoming  Sessions </a></li>
-                        <li><a class="langSwitch" href="index_ar.php">العربية </a></li>
-                        <!-- <li><a  href="#">Contact Us</a></li> -->
-                        
-                        <!-- <li class="dropdown smallMenu has-submenu">
-                           <a href="#" data-toggle="dropdown" class="dropdown-toggle disabled">Circles</a>
-                           <span class="arrow-submenu"></span>
-                           <ul role="menu" class="dropdown-menu">
-                               <li><a href="#">Circles</a></li>
-                               <li><a href="#">Circles</a></li>
-                           </ul>
-                        </li> -->
-                      </ul>
-
-
-
-
-                    </div>
-
-                    
-                        
-                  </div>
-                </div>
-
-                <!-- /.container -->
-                
-            </nav>
-            
-     </header>
-
+    

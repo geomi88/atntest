@@ -1,4 +1,4 @@
-@extends('layouts.header')
+@extends('layouts.layout')
 @section('content')
 
 <style type="text/css">
@@ -674,6 +674,7 @@
                         <!-- multistep form -->
                         <div class="registrationWizardWrap">
                             <form method="POST" name="register-form" id="registerForm" class="registerForm" novalidate="novalidate">
+                                <input type = "hidden" id= "base_url" value="{{ url('/') }}"/>
                                 <div id="wizard" class="wizardWrap">
                                     <div class="stepHead">
                                         <span class="stepTitle">Email / Youth ID</span>
@@ -691,10 +692,10 @@
                                                         </h4>
                                                     </div>
                                                     <div class="formControl">
-                                                        <input type="text" placeholder="Enter here">
+                                                        <input type="text" placeholder="Enter here" name="email" id="email">
                                                     </div>
                                                     <div class="formControl">
-                                                        <input type="text" placeholder="Enter password">
+                                                        <input type="text" placeholder="Enter password" name="password" id="password">
                                                     </div>
                                                     <div class="formControl">
                                                         <label class="smallFont"><a id="forgotPassword" class="color-grey" href="#">Forgot password?</a></label>
@@ -740,7 +741,7 @@
                                                 <label class="feildTitle">Name in English*</label>
                                             </div>
                                             <div class="col-sm-4 formControl">
-                                                <input type="text" placeholder="First name">
+                                                <input type="text" placeholder="First name" name ="en_first_name" id ="en_first_name">
                                             </div>
                                             <div class="col-sm-4 formControl">
                                                 <input type="text" placeholder="Middle name">
@@ -807,11 +808,10 @@
                                                 <label class="feildTitle">Nationality</label>
                                                 <div class="selectField">
                                                     <select name="speed" class="selectBox" id="nationality">
-                                                      <option>Select</option>
-                                                      <option>United Arab Emirates</option>
-                                                      <option>United Kingdom</option>
-                                                      <option>United States</option>
-                                                      <option>Uruguay</option>
+                                                        <option id = "">Select</option>
+                                                        @foreach( $countries as $country)
+                                                            <option id = "{{$country->id}}"> {{$country->name}}</option>
+                                                        @endforeach                                                        
                                                     </select>
                                                 </div>
                                             </div>
@@ -832,10 +832,9 @@
                                                 <div class="selectField">
                                                     <select name="speed" class="selectBox" id="educationLevel">
                                                       <option>Select</option>
-                                                      <option>High school graduate, diploma</option>
-                                                      <option>Bachelor’s degree</option>
-                                                      <option>Master’s degree</option>
-                                                      <option>Other</option>
+                                                      @foreach( $educations as $education)
+                                                            <option id = "{{$education->id}}"> {{$education->name}}</option>
+                                                        @endforeach   
                                                     </select>
                                                 </div>
                                             </div>
@@ -852,7 +851,7 @@
                                                     <li>
                                                         <label class="feildLabel">
                                                             <input name="group2" type="radio" checked />
-                                                            <span>Yes</span>
+                                                            <span>Yes</span>country
                                                         </label>
                                                     </li>
                                                     <li>
@@ -958,87 +957,14 @@
                                             <div class="col-sm-12">
                                                 <label class="feildTitle">Interests</label>
                                                 <ul class="listInlineFlex">
-                                                    <li>
-                                                        <label class="feildLabel">
-                                                            <input type="checkbox" />
-                                                            <span>Outdoors & Adventure</span>
-                                                        </label>
-                                                    </li>
-                                                    <li>
-                                                        <label class="feildLabel">
-                                                            <input type="checkbox" />
-                                                            <span>Technology</span>
-                                                        </label>
-                                                    </li>
-                                                    <li>
-                                                        <label class="feildLabel">
-                                                            <input type="checkbox" />
-                                                            <span>Sports, Fitness, Health & Wellness</span>
-                                                        </label>
-                                                    </li>
-                                                    <li>
-                                                        <label class="feildLabel">
-                                                            <input type="checkbox" />
-                                                            <span>Photography, Film & Media</span>
-                                                        </label>
-                                                    </li>
-                                                    <li>
-                                                        <label class="feildLabel">
-                                                            <input type="checkbox" />
-                                                            <span>Food & Beverages</span>
-                                                        </label>
-                                                    </li>
-                                                    <li>
-                                                        <label class="feildLabel">
-                                                            <input type="checkbox" />
-                                                            <span>Writing, Book Clubs</span>
-                                                        </label>
-                                                    </li>
-                                                    <li>
-                                                        <label class="feildLabel">
-                                                            <input type="checkbox" />
-                                                            <span>Society, Language & Culture</span>
-                                                        </label>
-                                                    </li>
-                                                    <li>
-                                                        <label class="feildLabel">
-                                                            <input type="checkbox" />
-                                                            <span>Music</span>
-                                                        </label>
-                                                    </li>
-                                                    <li>
-                                                        <label class="feildLabel">
-                                                            <input type="checkbox" />
-                                                            <span>Sci-Fi & Games</span>
-                                                        </label>
-                                                    </li>
-                                                    <li>
-                                                        <label class="feildLabel">
-                                                            <input type="checkbox" />
-                                                            <span>Arts & Crafts</span>
-                                                        </label>
-                                                    </li>
-                                                    <li>
-                                                        <label class="feildLabel">
-                                                            <input type="checkbox" />
-                                                            <span>Fashion & Beauty</span>
-                                                        </label>
-                                                    </li>
-                                                    <li>
-                                                        <label class="feildLabel">
-                                                            <input type="checkbox" />
-                                                            <span>Learning, Profession , Career & Business</span>
-                                                        </label>
-                                                    </li>
-                                                    <li>
-                                                        <label class="feildLabel">
-                                                            <input type="checkbox" />
-                                                            <span>Volunteering</span>
-                                                        </label>
-                                                    </li>
-
-
-
+                                                    @foreach($interests as $interest)
+                                                        <li>
+                                                            <label class="feildLabel">
+                                                                <input type="checkbox" id= "{{$interest->id}}" />
+                                                                <span>{{$interest->title}}</span>
+                                                            </label>
+                                                        </li>
+                                                    @endforeach                                                 
                                                 </ul>
                                             </div>
                                         </div>
@@ -1089,7 +1015,6 @@
 <!-- ALL CONTENT SECTION -->
 
 
-@extends('layouts.footer')
 <script src="{{ asset('dist/scripts/anime.min.js') }}"></script>
 <script src="{{ asset('dist/scripts/scrollMonitor.js') }}"></script>
 <script src="{{ asset('dist/scripts/bg-shape-animation-scripts.js?112') }}"></script>
@@ -1173,9 +1098,53 @@
             onStepChanging: function (event, currentIndex, newIndex) {
                 var nextStep = '#wizard #wizard-p-' + newIndex;
                 var heightNextStep = $(nextStep).css('minHeight');
+                var form = $('#registerForm');
+                //form.validate().settings.ignore = ":disabled,:hidden";
+                //return form.valid();
               //  $(nextStep).parent().animate({height:heightNextStep},200);
-                return true; 
-            },
+                //return true; 
+                form.validate({
+                    rules: {
+                        email: {
+                            required: true,
+                            minlength: 6,
+                        },
+                        en_first_name: {
+                            required: true
+                        }
+                    },
+                    messages: {
+                        email: {
+                            required: "Email/Youth ID is required",
+                        },
+                    }
+                });
+                if (form.valid() == true){
+                    var base_url = $("#base_url").val();
+                    if(currentIndex == 0)
+                    {
+                        var email = $("#email").val();
+                        var password = $('#password').val();
+                        var token = $('meta[name="csrf-token"]').attr('content');
+                        $.ajax({
+                            headers: {
+                                'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+                            },
+                            type: 'POST',
+                            url: base_url+"/login",
+                            data: {"email":email, "password": password},
+                            dataType: 'json',
+                            async: false,
+                            cache: false,
+                            timeout: 30000,
+                            success: function (data) {
+                                return true;
+                            },
+                        });
+                    }
+                    return true; 
+                }
+                    },
 
         });
 
@@ -1255,8 +1224,4 @@
 </script>
 
 
-
-</body>
-
-</html>
 @endsection
