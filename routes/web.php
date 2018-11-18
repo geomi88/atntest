@@ -19,4 +19,4 @@ Route::get('/',["uses" => "HomeController@index"]);
 
 Route::post("/login",["uses" => "Auth\LoginController@login"]);
 
-Route::get("/save_data", ["uses" => "UserController@saveData"]);
+Route::post("/save_data", ["uses" => "UserController@saveData"]);

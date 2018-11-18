@@ -17,6 +17,7 @@ class UserController extends BaseController
 
     public function saveData()
     {
+        die('asd');
         $password = Hash::make('123456');
 
         $user = new User(["email"=>"developer1@mailinator.com","password" => $password]);

@@ -43,12 +43,15 @@ class LoginController extends Controller
     public function login(Request $request)
     {
         $credentials = $request->only('email', 'password');
-        $authSuccess = Auth::attempt($credentials, $request->has('remember'));
 
-        if($authSuccess) {
-            $request->session()->regenerate();
+        if (Auth::attempt($credentials)) {
+            // Authentication passed...
             return response(['success' => true]);
         }
+        /*if($authSuccess) {
+            $request->session()->regenerate();
+            return response(['success' => true]);
+        }*/
 
         return
             response([

@@ -1131,13 +1131,14 @@
                                 'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
                             },
                             type: 'POST',
-                            url: base_url+"/login",
-                            data: {"email":email, "password": password},
+                            url: base_url+'/login',
+                            data: {'email':email, 'password': password},
                             dataType: 'json',
                             async: false,
                             cache: false,
                             timeout: 30000,
                             success: function (data) {
+                                alert(data);
                                 return true;
                             },
                         });
