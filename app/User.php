@@ -37,8 +37,8 @@ class User extends Authenticatable
         return $this->hasOne("App\Models\UserProfessionalDetails");
     }
 
-    public function user_interests()
+    public function interests()
     {
-        return $this->hasMany("App\Models\UserInterests");
+        return $this->belongsToMany('App\Models\Interests','user_interests','user_id','interest_id')->withPivot('interest_id');
     }
 }

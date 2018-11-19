@@ -673,8 +673,9 @@
                   <div class="modal-body">
                         <!-- multistep form -->
                         <div class="registrationWizardWrap">
-                            <form method="POST" name="register-form" id="registerForm" class="registerForm" novalidate="novalidate">
+                            <form method="POST" name="register-form" id="registerForm" class="registerForm" novalidate="novalidate" enctype="multipart/form-data" action='#'>
                                 <input type = "hidden" id= "base_url" value="{{ url('/') }}"/>
+                                <input type = "hidden" id= "user_id" value=""/>
                                 <div id="wizard" class="wizardWrap">
                                     <div class="stepHead">
                                         <span class="stepTitle">Email / Youth ID</span>
@@ -727,13 +728,13 @@
                                                 <label class="feildTitle">Name in Arabic*</label>
                                             </div>
                                             <div class="col-sm-4 formControl">
-                                                <input type="text" placeholder="Last name">
+                                                <input type="text" placeholder="Last name" name = "ar_last_name" id = "ar_last_name">
                                             </div>
                                             <div class="col-sm-4 formControl">
-                                                <input type="text" placeholder="Middle name">
+                                                <input type="text" placeholder="Middle name" name = "ar_middle_name" id = "ar_middle_name">
                                             </div>
                                             <div class="col-sm-4 formControl">
-                                                <input type="text" placeholder="First name">
+                                                <input type="text" placeholder="First name" name = "ar_first_name" id = "ar_first_name">
                                             </div>
                                         </div>
                                         <div class="row feildControlWrapper">
@@ -744,30 +745,30 @@
                                                 <input type="text" placeholder="First name" name ="en_first_name" id ="en_first_name">
                                             </div>
                                             <div class="col-sm-4 formControl">
-                                                <input type="text" placeholder="Middle name">
+                                                <input type="text" placeholder="Middle name" name ="en_middle_name" id ="en_middle_name">
                                             </div>
                                             <div class="col-sm-4 formControl">
-                                                <input type="text" placeholder="Last name">
+                                                <input type="text" placeholder="Last name" name ="en_last_name" id ="en_last_name">
                                             </div>
                                         </div>
                                         <div class="row feildControlWrapper">
                                             
                                             <div class="col-sm-4 formControl">
                                                 <label class="feildTitle">Date of birth</label>
-                                                <input class="datepicker" type="text" placeholder="dd/mm/yyyy">
+                                                <input class="datepicker" type="text" placeholder="dd/mm/yyyy" name ="dob" id ="dob">
                                             </div>
                                             <div class="col-sm-4 formControl">
                                                 <label class="feildTitle">Gender</label>
                                                 <ul class="listInline">
                                                     <li>
                                                         <label class="feildLabel">
-                                                            <input name="group1" type="radio" checked />
+                                                            <input type="radio" checked name ="gender"  value = "Male" />
                                                             <span>Male</span>
                                                         </label>
                                                     </li>
                                                     <li>
                                                         <label>
-                                                            <input name="group1" type="radio" />
+                                                            <input type="radio"  name ="gender"  value = "Female"/>
                                                             <span>Female</span>
                                                           </label>
                                                     </li>
@@ -776,7 +777,7 @@
                                             </div>
                                             <div class="col-sm-4 formControl">
                                                 <label class="feildTitle">Email*</label>
-                                                <input type="text" placeholder="Enter your mail">
+                                                <input type="text" placeholder="Enter your mail" name = "email" id = "p_email">
                                             </div>
                                         </div>
                                         
@@ -784,15 +785,15 @@
                                             
                                             <div class="col-sm-4 formControl">
                                                 <label class="feildTitle">Phone number</label>
-                                                <input type="text" placeholder="Enter your phone">
+                                                <input type="text" placeholder="Enter your phone"  name = "phone" id = "phone">
                                             </div>
                                             <div class="col-sm-4 formControl">
                                                  <label class="feildTitle">Password</label>
-                                                <input type="text" placeholder="Enter Password">
+                                                <input type="text" placeholder="Enter Password"  name = "p_password" id = "p_password">
                                             </div>
                                             <div class="col-sm-4 formControl">
                                                 <label class="feildTitle">Confirm password</label>
-                                                <input type="text" placeholder="Retype password">
+                                                <input type="text" placeholder="Retype password" name = "conf_password" id = "conf_password">
                                             </div>
                                             
                                         </div>
@@ -807,10 +808,10 @@
                                             <div class="col-sm-4 formControl">
                                                 <label class="feildTitle">Nationality</label>
                                                 <div class="selectField">
-                                                    <select name="speed" class="selectBox" id="nationality">
-                                                        <option id = "">Select</option>
+                                                    <select name="country_id" class="selectBox country" id="country_id">
+                                                        <option value = "">Select</option>
                                                         @foreach( $countries as $country)
-                                                            <option id = "{{$country->id}}"> {{$country->name}}</option>
+                                                            <option value = "{{$country->id}}"> {{$country->name}}</option>
                                                         @endforeach                                                        
                                                     </select>
                                                 </div>
@@ -818,22 +819,22 @@
                                             <div class="col-sm-4 formControl">
                                                 <label class="feildTitle">Emirate</label>
                                                 <div class="selectField">
-                                                    <select name="speed" class="selectBox" id="emirate">
-                                                        <option>Select</option>
-                                                      <option>Dubai</option>
-                                                      <option>Abu Dhabi</option>
-                                                      <option>Al Ain</option>
-                                                      <option>Sharjah</option>
+                                                    <select name="emirate" class="selectBox emirate" id="emirate">
+                                                        <option value = "">Select</option>
+                                                      <option value = "Dubai">Dubai</option>
+                                                      <option value = "Abu Dhabi">Abu Dhabi</option>
+                                                      <option value = "Al Ain">Al Ain</option>
+                                                      <option value = "Sharjah">Sharjah</option>
                                                     </select>
                                                 </div>
                                             </div>
                                             <div class="col-sm-4 formControl">
                                                 <label class="feildTitle">Education Level</label>
                                                 <div class="selectField">
-                                                    <select name="speed" class="selectBox" id="educationLevel">
-                                                      <option>Select</option>
+                                                    <select name="education_level_id" class="selectBox education" id="education_level_id">
+                                                      <option value = "">Select</option>
                                                       @foreach( $educations as $education)
-                                                            <option id = "{{$education->id}}"> {{$education->name}}</option>
+                                                            <option value = "{{$education->id}}"> {{$education->name}}</option>
                                                         @endforeach   
                                                     </select>
                                                 </div>
@@ -843,20 +844,20 @@
                                             
                                             <div class="col-sm-4 formControl">
                                                 <label class="feildTitle">Field of study</label>
-                                                <input type="text" placeholder="Enter your study">
+                                                <input type="text" placeholder="Enter your study" name = "field_of_study" id ="field_of_study">
                                             </div>
                                             <div class="col-sm-4 formControl">
                                                 <label class="feildTitle">Are you working?</label>
                                                 <ul class="listInline">
                                                     <li>
                                                         <label class="feildLabel">
-                                                            <input name="group2" type="radio" checked />
-                                                            <span>Yes</span>country
+                                                            <input type="radio" checked name="is_working" value = "1"/>
+                                                            <span>Yes</span>
                                                         </label>
                                                     </li>
                                                     <li>
                                                         <label>
-                                                            <input name="group2" type="radio" />
+                                                            <input type="radio" name = "is_working" value= "0"/>
                                                             <span>No</span>
                                                           </label>
                                                     </li>
@@ -864,7 +865,7 @@
                                             </div>
                                             <div class="col-sm-4 formControl">
                                                 <label>Emirates id card number</label>
-                                                <input type="text" placeholder="784- ">
+                                                <input type="text" placeholder="784- " name = "emirate_id_no" id= "emirate_id_no">
                                             </div>
                                             
                                         </div>
@@ -872,7 +873,7 @@
                                             <div class="col-sm-4 formControl">
                                                 <label class="feildTitle">Emirates id Card</label>
                                                 <div class="input_parent">
-                                                    <input type="file" class="form-control uploader" />
+                                                    <input type="file" class="form-control uploader" name = "emirate_id_card_file" id= "emirate_id_card_file"/>
                                                     <div class="choose">
                                                         <div class="choose-btn">Select File</div>
                                                             <div class="choose-file uploadFileName"></div>
@@ -902,7 +903,7 @@
                                             <div class="col-sm-4 formControl">
                                                 <label class="feildTitle">Personal Photo</label>
                                                 <div class="input_parent">
-                                                    <input type="file" class="form-control uploader" />
+                                                    <input type="file" class="form-control uploader" name = "personal_photo_file" id= "personal_photo_file"/>
                                                     <div class="choose">
                                                         <div class="choose-btn">Select File</div>
                                                             <div class="choose-file uploadFileName"></div>
@@ -919,7 +920,7 @@
                                             <div class="col-sm-4 formControl">
                                                 <label class="feildTitle">Passport copy front page</label>
                                                 <div class="input_parent">
-                                                    <input type="file" class="form-control uploader" />
+                                                    <input type="file" class="form-control uploader" name = "passport_front_file" id= "passport_front_file" />
                                                     <div class="choose">
                                                         <div class="choose-btn">Select File</div>
                                                             <div class="choose-file uploadFileName"></div>
@@ -934,7 +935,7 @@
                                             <div class="col-sm-4 formControl">
                                                 <label class="feildTitle">Passport copy back page </label>
                                                 <div class="input_parent">
-                                                    <input type="file" class="form-control uploader" />
+                                                    <input type="file" class="form-control uploader" name = "passport_back_file" id= "passport_back_file"/>
                                                     <div class="choose">
                                                         <div class="choose-btn">Select File</div>
                                                             <div class="choose-file uploadFileName"></div>
@@ -960,7 +961,7 @@
                                                     @foreach($interests as $interest)
                                                         <li>
                                                             <label class="feildLabel">
-                                                                <input type="checkbox" id= "{{$interest->id}}" />
+                                                                <input type="checkbox" value= "{{$interest->id}}"  class = "interests" name = "user_interest[]"/>
                                                                 <span>{{$interest->title}}</span>
                                                             </label>
                                                         </li>
@@ -1035,6 +1036,7 @@
 
     $(document).ready(function() {
 
+        
       //  $(".selectBox").selectmenu();
 
          youth.logoChanger();
@@ -1088,44 +1090,151 @@
            
             
             onFinishing: function (event, currentIndex) { 
-                $('.registrationWizardWrap').addClass('registrationCompleted');
-                $('.register-popup').addClass('register-popup-success');
-                console.log('finished');
+                        var base_url = $("#base_url").val();
+                        var token = $('meta[name="csrf-token"]').attr('content');
+                        var interests = [];
+                        $('.interests:checked').each(function(i){
+                            interests.push({interest_id :  $(this).val()});
+                        });
+                        var user_id = $('#user_id').val();
+                        $.ajax({
+                            headers: {
+                                'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+                            },
+                            type: 'POST',
+                            url: base_url+'/save_interests',
+                            data: {"interests": interests, "user_id": user_id},
+                            dataType: 'json',
+                            async: false,
+                            cache: false,
+                            timeout: 30000,
+                            success: function (data) {
+                                $('.registrationWizardWrap').addClass('registrationCompleted');
+                                $('.register-popup').addClass('register-popup-success');
+                                console.log('finished');
+                                
+                            },
+                            error: function (data)
+                            {
+                                alert("Something went wrong. Please try again later");
+                                move = false;
+                            }
+                        });
+                
              }, 
             onFinished: function (event, currentIndex) {
                 
             },
             onStepChanging: function (event, currentIndex, newIndex) {
+                var move = false;
                 var nextStep = '#wizard #wizard-p-' + newIndex;
                 var heightNextStep = $(nextStep).css('minHeight');
                 var form = $('#registerForm');
-                //form.validate().settings.ignore = ":disabled,:hidden";
-                //return form.valid();
-              //  $(nextStep).parent().animate({height:heightNextStep},200);
-                //return true; 
+                $.validator.addMethod("valueNotEquals", function(value, element, arg){
+                    return arg !== value;
+                    }, "Value must not equal arg.");
+    
+                                    
                 form.validate({
                     rules: {
                         email: {
                             required: true,
-                            minlength: 6,
+                            email: true
+                        },
+                        password: {
+                            required: true
                         },
                         en_first_name: {
                             required: true
-                        }
+                        },
+                        en_last_name: {
+                            required: true
+                        },
+                        en_middle_name: {
+                            required: true
+                        },
+                        ar_first_name: {
+                            required: true
+                        },
+                        ar_last_name: {
+                            required: true
+                        },
+                        ar_middle_name: {
+                            required: true
+                        },
+                        p_email: {
+                            required: true,
+                            email: true
+                        },
+                        phone: {
+                            required: true
+                        },
+                        p_password: {
+                            required:true
+                        },
+                        conf_password: {
+                            equalTo : "#p_password"
+                        },
+                        dob: {
+                            required:true
+                        },
+                        field_of_study: {
+                            required: true
+                        },
+                        emirate_id_no: {
+                            required: true
+                        },
+                        emirate_id_card_file: {
+                            required: true,
+                            extension: "jpg|jpeg|png"
+                        },
+                        personal_photo_file: {
+                            required: true,
+                            extension: "jpg|jpeg|png"
+                        },
+                        passport_front_file: {
+                            required: true,
+                            extension: "jpg|jpeg|png"
+                        },
+                        passport_back_file: {
+                            required: true,
+                            extension: "jpg|jpeg|png"
+                        },
+                        'user_interest[]': {
+                            required: true                        },
                     },
                     messages: {
                         email: {
                             required: "Email/Youth ID is required",
                         },
+                        emirate_id_card_file: {
+                            required: "This file is required",
+                            extension: "Upload file with correct extension"
+                        },
+                        personal_photo_file: {
+                            required: "This file is required",
+                            extension: "Upload file with correct extension"
+                        },
+                        passport_front_file: {
+                            required: "This file is required",
+                            extension: "Upload file with correct extension"
+                        },
+                        passport_back_file: {
+                            required: "This file is required",
+                            extension: "Upload file with correct extension"
+                        },
+                        'user_interest[]': {
+                            required: "You must check at least 1 box",
+                        }
                     }
                 });
                 if (form.valid() == true){
                     var base_url = $("#base_url").val();
+                    var token = $('meta[name="csrf-token"]').attr('content');
                     if(currentIndex == 0)
                     {
                         var email = $("#email").val();
                         var password = $('#password').val();
-                        var token = $('meta[name="csrf-token"]').attr('content');
                         $.ajax({
                             headers: {
                                 'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
@@ -1138,14 +1247,153 @@
                             cache: false,
                             timeout: 30000,
                             success: function (data) {
-                                alert(data);
-                                return false;
+                                if(data.auth == false)
+                                {
+                                    alert("Login failed. Please try again");
+                                    move = false;
+                                }else{
+                                    user = data.user;
+                                    $('#user_id').attr("value", user.id);
+                                    $('#p_email').attr("value",user.email);
+                                    $('#p_password').attr("value",password);
+                                    $('#conf_password').attr("value",password);
+                                    personal = user.person_detail;                                    
+                                    professional = user.professional_detail;
+                                    var interests = user.interests;
+
+                                   if(personal != null){
+                                        gender = personal.gender;
+                                        $('input:radio[name=gender]').filter('[value='+gender+']').prop('checked', true);
+                                    
+                                        $.each(personal, function( key, value ) {
+                                            $("#"+key).attr("value",value);
+                                        });
+                                    }
+                                    if(professional !=null)
+                                    {
+                                        is_working = professional.is_working;
+                                        country_id = professional.country_id;
+                                        education_level_id = professional.education_level_id;
+                                        education_level = professional.education_level.name;
+                                        country = professional.country.name;
+                                        emirate = professional.emirate;
+                                        $.each(professional, function( key, value ) {
+                                            $("#"+key).attr("value",value);
+                                        });
+                                        $('input:radio[name=is_working]').filter('[value='+is_working+']').prop('checked', true);
+                                        $('.country option[value='+country_id+']').attr('selected','selected');
+                                        $('#country_id-button .ui-selectmenu-text').html(country);
+                                        $('.emirate option[value="'+emirate+'"]').attr('selected','selected');
+                                        $('#emirate-button .ui-selectmenu-text').html(emirate);
+                                        $('.education option[value='+education_level_id+']').attr('selected','selected');
+                                        $('#education_level_id-button .ui-selectmenu-text').html(education_level);
+
+                                    }                                   
+                                    if(interests != null){
+                                        $.each(interests, function( key, value ) {
+                                            $('.interests').filter('[value='+value.id+']').prop('checked', true);
+                                            // $(".[value =".value.id] ").attr("value",value.);
+                                        });
+                                    }
+                                    move = true;
+                                }
                             },
                         });
+                    return move;
                     }
-                    return false; 
+                    else if(currentIndex ==1)
+                    {
+                        var en_first_name = $('#en_first_name').val();
+                        var en_last_name = $("#en_last_name").val();
+                        var en_middle_name = $('#en_middle_name').val();
+                        var ar_first_name = $('#ar_first_name').val()
+                        var ar_last_name = $('#ar_last_name').val();
+                        var ar_middle_name = $('#ar_middle_name').val();
+                        var dob = $('#dob').val();
+                        var phone =  $("#phone").val();
+                        var email =  $('#email').val();
+                        var password = $('#p_password').val();
+                        var user_id = $('#user_id').val();
+                        var gender = $('input[name=gender]:checked').val();
+                        var data = {
+                            "en_first_name" : en_first_name,
+                            "en_last_name" : en_last_name,
+                            "en_middle_name": en_middle_name,
+                            "ar_first_name" : ar_first_name,
+                            "ar_last_name" : ar_last_name,
+                            "ar_middle_name": ar_middle_name ,
+                            "dob" : dob,
+                            "phone" : phone,
+                            "email" :email,
+                            "password" : password,
+                            "user_id": user_id,
+                            "gender": gender
+                        };
+                        $.ajax({
+                            headers: {
+                                'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+                            },
+                            type: 'POST',
+                            url: base_url+'/save_personal_data',
+                            data: data,
+                            dataType: 'json',
+                            async: false,
+                            cache: false,
+                            timeout: 30000,
+                            success: function (data) {
+                                //alert("Data saved successfully");
+                                move = true;
+                                
+                            },
+                            error: function (data)
+                            {
+                                alert("Something went wrong. Please try again later");
+                                move = false;
+                            }
+                        });
+                        return move;
+                    }
+                    else if(currentIndex ==2)
+                    {
+                        fd =  new FormData($("#registerForm")[0]);
+                        
+                        var nationality =  $('#country_id option:selected').val();
+                        var emirate = $("#emirate option:selected").val();
+                        var educationLevel = $('#education_level_id option:selected').val();
+                        var field_of_study = $('#field_of_study').val()
+                        var is_working = $('#is_working').val();
+                        var emirate_id_no = $('#emirate_id_no').val();
+                        var user_id = $('#user_id').val();
+                        fd.append('user_id', user_id);
+                        $.ajax({
+                            headers: {
+                                'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+                            },
+                            type: 'POST',
+                            url: base_url+'/save_professional_data',
+                            data: fd,
+                            dataType: 'json',
+                            async: false,
+                            cache: false,
+                            timeout: 30000,
+                            processData: false,
+                            contentType: false,
+                            success: function (data) {
+                                //alert("Data saved successfully");
+                                move = true;
+                                
+                            },
+                            error: function (data)
+                            {
+                                alert("Something went wrong. Please try again later");
+                                move = false;
+                            }
+                        });
+                        return move;
+                    }
+                    
                 }
-                    },
+            },
 
         });
 

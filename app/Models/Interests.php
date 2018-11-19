@@ -15,6 +15,11 @@ class Interests extends Model
      */
     protected $fillable = ["title"
     ];
+
+    public function users()
+	{
+		return $this->belongsToMany('App\User','user_interests','interest_id','user_id')->withPivot('user_id');
+	}
     
     
 }

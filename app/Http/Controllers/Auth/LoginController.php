@@ -7,6 +7,7 @@ use Illuminate\Foundation\Auth\AuthenticatesUsers;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
+use App\User;
 class LoginController extends Controller
 {
     /*
@@ -27,7 +28,7 @@ class LoginController extends Controller
      *
      * @var string
      */
-    protected $redirectTo = '/home';
+    protected $redirectTo = '';
 
     /**
      * Create a new controller instance.
@@ -36,27 +37,28 @@ class LoginController extends Controller
      */
     public function __construct()
     {
-        $this->middleware('guest')->except('logout');
+       // $this->middleware('guest')->except('logout');
     }
 
     public function login(Request $request)
     {
-        
+        //clear the existing user
+        Auth::logout();
+        $auth = false;
         $credentials = $request->only('email', 'password');
+        $user = null;
 
-        if (Auth::attempt($credentials)) {
-            // Authentication passed...
-            return response(['success' => true, Response::HTTP_OK]);
+        if (Auth::attempt($credentials, $request->has('remember'))) {
+            $auth = true; // Success
+            $user = Auth()->user();
+            $user = \App\User::with(['person_detail', "professional_detail.country", "professional_detail.education_level", "interests"])->find($user->id);
         }
-        /*if($authSuccess) {
-            $request->session()->regenerate();
-            return response(['success' => true]);
-        }*/
 
-        return
-            response([
-                'success' => false,
-                'message' => 'Auth failed (or some other message)'
+        if ($request->ajax()) {
+            return response()->json([
+                'auth' => $auth,
+                'user' => $user
             ]);
+        } 
     }
 }

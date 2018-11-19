@@ -22,6 +22,7 @@
         
         <script src="{{ asset('dist/scripts/bundle.min.js') }}"></script>
         <script src="http://ajax.aspnetcdn.com/ajax/jquery.validate/1.11.1/jquery.validate.min.js"></script>
+        <script src="http://ajax.aspnetcdn.com/ajax/jquery.validate/1.11.0/additional-methods.js"></script>
 
         <meta name="csrf-token" content="{{ csrf_token() }}">
 
