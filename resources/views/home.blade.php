@@ -676,7 +676,11 @@
                             <form method="POST" name="register-form" id="registerForm" class="registerForm" novalidate="novalidate" enctype="multipart/form-data" action='#'>
                                 <input type = "hidden" id= "base_url" value="{{ url('/') }}"/>
                                 <input type = "hidden" id= "user_id" value=""/>
+                                <input type = "hidden" id= "exist_passport_back_file" value="1"/>
+                                
                                 <div id="wizard" class="wizardWrap">
+                                <div class="alert alert-danger" style="display:none"></div>
+
                                     <div class="stepHead">
                                         <span class="stepTitle">Email / Youth ID</span>
                                     </div>
@@ -777,7 +781,7 @@
                                             </div>
                                             <div class="col-sm-4 formControl">
                                                 <label class="feildTitle">Email*</label>
-                                                <input type="text" placeholder="Enter your mail" name = "email" id = "p_email">
+                                                <input type="text" placeholder="Enter your mail" name = "p_email" id = "p_email">
                                             </div>
                                         </div>
                                         
@@ -933,8 +937,11 @@
                                                 </div>
                                             </div>
                                             <div class="col-sm-4 formControl">
+                                            
                                                 <label class="feildTitle">Passport copy back page </label>
+                                                <img src="<?php echo asset('storage/personal_photos/1'); ?>">
                                                 <div class="input_parent">
+                                                    
                                                     <input type="file" class="form-control uploader" name = "passport_back_file" id= "passport_back_file"/>
                                                     <div class="choose">
                                                         <div class="choose-btn">Select File</div>
@@ -961,7 +968,7 @@
                                                     @foreach($interests as $interest)
                                                         <li>
                                                             <label class="feildLabel">
-                                                                <input type="checkbox" value= "{{$interest->id}}"  class = "interests" name = "user_interest[]"/>
+                                                                <input type="checkbox" value= "{{$interest->id}}"  class = "interests" name = "interests[]"/>
                                                                 <span>{{$interest->title}}</span>
                                                             </label>
                                                         </li>
@@ -1089,42 +1096,7 @@
             stepsOrientation: "horizontal",
            
             
-            onFinishing: function (event, currentIndex) { 
-                        var base_url = $("#base_url").val();
-                        var token = $('meta[name="csrf-token"]').attr('content');
-                        var interests = [];
-                        $('.interests:checked').each(function(i){
-                            interests.push({interest_id :  $(this).val()});
-                        });
-                        var user_id = $('#user_id').val();
-                        $.ajax({
-                            headers: {
-                                'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
-                            },
-                            type: 'POST',
-                            url: base_url+'/save_interests',
-                            data: {"interests": interests, "user_id": user_id},
-                            dataType: 'json',
-                            async: false,
-                            cache: false,
-                            timeout: 30000,
-                            success: function (data) {
-                                $('.registrationWizardWrap').addClass('registrationCompleted');
-                                $('.register-popup').addClass('register-popup-success');
-                                console.log('finished');
-                                
-                            },
-                            error: function (data)
-                            {
-                                alert("Something went wrong. Please try again later");
-                                move = false;
-                            }
-                        });
-                
-             }, 
-            onFinished: function (event, currentIndex) {
-                
-            },
+            
             onStepChanging: function (event, currentIndex, newIndex) {
                 var move = false;
                 var nextStep = '#wizard #wizard-p-' + newIndex;
@@ -1196,12 +1168,18 @@
                             required: true,
                             extension: "jpg|jpeg|png"
                         },
-                        passport_back_file: {
+                        /*passport_back_file: {
                             required: true,
                             extension: "jpg|jpeg|png"
-                        },
+                        },*/
                         'user_interest[]': {
-                            required: true                        },
+                            required: true                
+                        },
+                        passport_back_file: {
+                            required: function(element){
+                                return $("#exist_passport_back_file").val() == 0;
+                            }
+                        },
                     },
                     messages: {
                         email: {
@@ -1246,7 +1224,10 @@
                             async: false,
                             cache: false,
                             timeout: 30000,
+                            
                             success: function (data) {
+                                $('.alert-danger').hide();
+                                $('.alert-danger').empty();
                                 if(data.auth == false)
                                 {
                                     alert("Login failed. Please try again");
@@ -1298,6 +1279,15 @@
                                     move = true;
                                 }
                             },
+                            error: function(jqXhr, json, errorThrown){// this are default for ajax errors 
+                                $('.alert-danger').empty();
+                                var errors = jqXhr.responseJSON;
+                                $.each(errors['errors'], function (index, value) {
+                                    $('.alert-danger').show();
+                                    $('.alert-danger').append('<p>'+value+'</p>');
+                                     
+                                });
+                            }
                         });
                     return move;
                     }
@@ -1311,8 +1301,9 @@
                         var ar_middle_name = $('#ar_middle_name').val();
                         var dob = $('#dob').val();
                         var phone =  $("#phone").val();
-                        var email =  $('#email').val();
+                        var email =  $('#p_email').val();
                         var password = $('#p_password').val();
+                        var conf_password = $('#conf_password').val();
                         var user_id = $('#user_id').val();
                         var gender = $('input[name=gender]:checked').val();
                         var data = {
@@ -1326,6 +1317,7 @@
                             "phone" : phone,
                             "email" :email,
                             "password" : password,
+                            "conf_password" : conf_password,
                             "user_id": user_id,
                             "gender": gender
                         };
@@ -1340,16 +1332,26 @@
                             async: false,
                             cache: false,
                             timeout: 30000,
+                            
                             success: function (data) {
                                 //alert("Data saved successfully");
                                 move = true;
                                 
                             },
-                            error: function (data)
-                            {
-                                alert("Something went wrong. Please try again later");
-                                move = false;
+                            error: function(jqXhr, json, errorThrown){// this are default for ajax errors 
+                                $('.alert-danger').empty();
+                                var errors = jqXhr.responseJSON;
+                                $.each(errors['errors'], function (index, value) {
+                                    $('.alert-danger').show();
+                                    $('.alert-danger').append('<p>'+value+'</p>');
+                                     
+                                });
                             }
+                            // error: function (data)
+                            // {
+                            //     alert("Something went wrong. Please try again later");
+                            //     move = false;
+                            // }
                         });
                         return move;
                     }
@@ -1383,16 +1385,75 @@
                                 move = true;
                                 
                             },
-                            error: function (data)
-                            {
-                                alert("Something went wrong. Please try again later");
-                                move = false;
+                            error: function(jqXhr, json, errorThrown){// this are default for ajax errors 
+                                $('.alert-danger').empty();
+                                var errors = jqXhr.responseJSON;
+                                $.each(errors['errors'], function (index, value) {
+                                    $('.alert-danger').show();
+                                    $('.alert-danger').append('<p>'+value+'</p>');
+                                     
+                                });
                             }
                         });
                         return move;
                     }
                     
                 }
+            },
+            onFinishing: function (event, currentIndex) { 
+                var form = $('#registerForm');
+                form.validate({
+                    rules: {
+                        'user_interest[]': {
+                            required: true                
+                        }
+                    },
+                    messages: {
+                        'user_interest[]': {
+                            required: "You must check at least 1 box",
+                        }
+                    }
+                });
+                if (form.valid() == true){
+
+                        var base_url = $("#base_url").val();
+                        var token = $('meta[name="csrf-token"]').attr('content');
+                        var interests = [];
+                        $('.interests:checked').each(function(i){
+                            interests.push({interest_id :  $(this).val()});
+                        });
+                        var user_id = $('#user_id').val();
+                        $.ajax({
+                            headers: {
+                                'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+                            },
+                            type: 'POST',
+                            url: base_url+'/save_interests',
+                            data: {"interests": interests, "user_id": user_id},
+                            dataType: 'json',
+                            async: false,
+                            cache: false,
+                            timeout: 30000,
+                            success: function (data) {
+                                $('.registrationWizardWrap').addClass('registrationCompleted');
+                                $('.register-popup').addClass('register-popup-success');
+                                console.log('finished');
+                                
+                            },
+                            error: function(jqXhr, json, errorThrown){// this are default for ajax errors 
+                                $('.alert-danger').empty();
+                                var errors = jqXhr.responseJSON;
+                                $.each(errors['errors'], function (index, value) {
+                                    $('.alert-danger').show();
+                                    $('.alert-danger').append('<p>'+value+'</p>');
+                                     
+                                });
+                            }
+                        });
+                }
+             }, 
+            onFinished: function (event, currentIndex) {
+                
             },
 
         });

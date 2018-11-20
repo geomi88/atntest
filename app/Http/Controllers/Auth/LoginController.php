@@ -8,6 +8,7 @@ use Illuminate\Support\Facades\Auth;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
 use App\User;
+
 class LoginController extends Controller
 {
     /*
@@ -19,7 +20,7 @@ class LoginController extends Controller
     | redirecting them to your home screen. The controller uses a trait
     | to conveniently provide its functionality to your applications.
     |
-    */
+     */
 
     use AuthenticatesUsers;
 
@@ -47,7 +48,13 @@ class LoginController extends Controller
         $auth = false;
         $credentials = $request->only('email', 'password');
         $user = null;
-
+        $this->validate(
+            $request,
+            [
+                'email' => 'required|string|email',
+                'password' => 'required'
+            ]
+        );
         if (Auth::attempt($credentials, $request->has('remember'))) {
             $auth = true; // Success
             $user = Auth()->user();
@@ -59,6 +66,6 @@ class LoginController extends Controller
                 'auth' => $auth,
                 'user' => $user
             ]);
-        } 
+        }
     }
 }
