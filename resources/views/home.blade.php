@@ -876,6 +876,7 @@
                                         <div class="row feildControlWrapper">
                                             <div class="col-sm-4 formControl">
                                                 <label class="feildTitle">Emirates id Card</label>
+                                                <img src="" id="existing_emirate_id_card_file" style="width:100px;height:100px;display:none;">
                                                 <div class="input_parent">
                                                     <input type="file" class="form-control uploader" name = "emirate_id_card_file" id= "emirate_id_card_file"/>
                                                     <div class="choose">
@@ -906,6 +907,7 @@
                                             </div> -->
                                             <div class="col-sm-4 formControl">
                                                 <label class="feildTitle">Personal Photo</label>
+                                                <img src="" id="existing_personal_photo_file" style="width:100px;height:100px;display:none;">
                                                 <div class="input_parent">
                                                     <input type="file" class="form-control uploader" name = "personal_photo_file" id= "personal_photo_file"/>
                                                     <div class="choose">
@@ -923,6 +925,8 @@
                                         <div class="row feildControlWrapper">
                                             <div class="col-sm-4 formControl">
                                                 <label class="feildTitle">Passport copy front page</label>
+                                                <img src="" id="existing_passport_front_file" style="width:100px;height:100px;display:none;">
+
                                                 <div class="input_parent">
                                                     <input type="file" class="form-control uploader" name = "passport_front_file" id= "passport_front_file" />
                                                     <div class="choose">
@@ -939,7 +943,8 @@
                                             <div class="col-sm-4 formControl">
                                             
                                                 <label class="feildTitle">Passport copy back page </label>
-                                                <img src="<?php echo asset('storage/personal_photos/1'); ?>">
+                                                <img src="" id="existing_passport_back_file" style="width:100px;height:100px;display:none;">
+
                                                 <div class="input_parent">
                                                     
                                                     <input type="file" class="form-control uploader" name = "passport_back_file" id= "passport_back_file"/>
@@ -1095,17 +1100,68 @@
             transitionEffect: "fade",
             stepsOrientation: "horizontal",
            
-            
+            onFinishing: function (event, currentIndex) { 
+                var form = $('#registerForm');
+                form.validate({
+                    rules: {
+                        'user_interest[]': {
+                            required: true                
+                        }
+                    },
+                    messages: {
+                        'user_interest[]': {
+                            required: "You must check at least 1 box",
+                        }
+                    }
+                });
+                if (form.valid() == true){
+
+                        var base_url = $("#base_url").val();
+                        var token = $('meta[name="csrf-token"]').attr('content');
+                        var interests = [];
+                        $('.interests:checked').each(function(i){
+                            interests.push({interest_id :  $(this).val()});
+                        });
+                        var user_id = $('#user_id').val();
+                        $.ajax({
+                            headers: {
+                                'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+                            },
+                            type: 'POST',
+                            url: base_url+'/save_interests',
+                            data: {"interests": interests, "user_id": user_id},
+                            dataType: 'json',
+                            async: false,
+                            cache: false,
+                            timeout: 30000,
+                            success: function (data) {
+                                $('.registrationWizardWrap').addClass('registrationCompleted');
+                                $('.register-popup').addClass('register-popup-success');
+                                console.log('finished');
+                                
+                            },
+                            error: function(jqXhr, json, errorThrown){// this are default for ajax errors 
+                                $('.alert-danger').empty();
+                                var errors = jqXhr.responseJSON;
+                                $.each(errors['errors'], function (index, value) {
+                                    $('.alert-danger').show();
+                                    $('.alert-danger').append('<p>'+value+'</p>');
+                                     
+                                });
+                            }
+                        });
+                }
+             }, 
+            onFinished: function (event, currentIndex) {
+                
+            },
             
             onStepChanging: function (event, currentIndex, newIndex) {
                 var move = false;
                 var nextStep = '#wizard #wizard-p-' + newIndex;
                 var heightNextStep = $(nextStep).css('minHeight');
                 var form = $('#registerForm');
-                $.validator.addMethod("valueNotEquals", function(value, element, arg){
-                    return arg !== value;
-                    }, "Value must not equal arg.");
-    
+                
                                     
                 form.validate({
                     rules: {
@@ -1156,29 +1212,33 @@
                         emirate_id_no: {
                             required: true
                         },
-                        emirate_id_card_file: {
-                            required: true,
-                            extension: "jpg|jpeg|png"
-                        },
-                        personal_photo_file: {
-                            required: true,
-                            extension: "jpg|jpeg|png"
-                        },
-                        passport_front_file: {
-                            required: true,
-                            extension: "jpg|jpeg|png"
-                        },
-                        /*passport_back_file: {
-                            required: true,
-                            extension: "jpg|jpeg|png"
-                        },*/
+                        
                         'user_interest[]': {
                             required: true                
                         },
                         passport_back_file: {
                             required: function(element){
-                                return $("#exist_passport_back_file").val() == 0;
-                            }
+                                return $("#existing_passport_back_file").attr('src') == '';
+                            },
+                            extension: "jpg|jpeg|png"
+                        },
+                        passport_front_file: {
+                            required: function(element){
+                                return $("#existing_passport_front_file").attr('src') == '';
+                            },
+                            extension: "jpg|jpeg|png"
+                        },
+                        personal_photo_file: {
+                            required: function(element){
+                                return $("#existing_personal_photo_file").attr('src') == '';
+                            },
+                            extension: "jpg|jpeg|png"
+                        },
+                        emirate_id_card_file: {
+                            required: function(element){
+                                return $("#existing_emirate_id_card_file").attr('src') == '';
+                            },
+                            extension: "jpg|jpeg|png"
                         },
                     },
                     messages: {
@@ -1268,7 +1328,26 @@
                                         $('#emirate-button .ui-selectmenu-text').html(emirate);
                                         $('.education option[value='+education_level_id+']').attr('selected','selected');
                                         $('#education_level_id-button .ui-selectmenu-text').html(education_level);
-
+                                        if(professional.emirate_id_card_file != '' && professional.emirate_id_card_file != null)
+                                        {
+                                            $('#existing_emirate_id_card_file').show();
+                                            $("img#existing_emirate_id_card_file").attr('src' , base_url+'/storage/'+professional.emirate_id_card_file);
+                                        }
+                                        if(professional.personal_photo_file != '' && professional.personal_photo_file != null)
+                                        {
+                                            $('#existing_personal_photo_file').show();
+                                            $("img#existing_personal_photo_file").attr('src' , base_url+'/storage/'+professional.personal_photo_file);
+                                        }
+                                        if(professional.passport_front_file != '' && professional.passport_front_file != null)
+                                        {
+                                            $('#existing_passport_front_file').show();
+                                            $("img#existing_passport_front_file").attr('src' , base_url+'/storage/'+professional.passport_front_file);
+                                        }
+                                        if(professional.passport_back_file != '' && professional.passport_back_file != null)
+                                        {
+                                            $('#existing_passport_back_file').show();
+                                            $("img#existing_passport_back_file").attr('src' , base_url+'/storage/'+professional.passport_back_file);
+                                        }
                                     }                                   
                                     if(interests != null){
                                         $.each(interests, function( key, value ) {
@@ -1334,6 +1413,8 @@
                             timeout: 30000,
                             
                             success: function (data) {
+                                $('.alert-danger').hide();
+                                $('.alert-danger').empty();
                                 //alert("Data saved successfully");
                                 move = true;
                                 
@@ -1381,6 +1462,8 @@
                             processData: false,
                             contentType: false,
                             success: function (data) {
+                                $('.alert-danger').hide();
+                                $('.alert-danger').empty();
                                 //alert("Data saved successfully");
                                 move = true;
                                 
@@ -1397,64 +1480,13 @@
                         });
                         return move;
                     }
-                    
-                }
-            },
-            onFinishing: function (event, currentIndex) { 
-                var form = $('#registerForm');
-                form.validate({
-                    rules: {
-                        'user_interest[]': {
-                            required: true                
-                        }
-                    },
-                    messages: {
-                        'user_interest[]': {
-                            required: "You must check at least 1 box",
-                        }
+                    else if(currentIndex ==3)
+                    {
+                        return true;
                     }
-                });
-                if (form.valid() == true){
-
-                        var base_url = $("#base_url").val();
-                        var token = $('meta[name="csrf-token"]').attr('content');
-                        var interests = [];
-                        $('.interests:checked').each(function(i){
-                            interests.push({interest_id :  $(this).val()});
-                        });
-                        var user_id = $('#user_id').val();
-                        $.ajax({
-                            headers: {
-                                'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
-                            },
-                            type: 'POST',
-                            url: base_url+'/save_interests',
-                            data: {"interests": interests, "user_id": user_id},
-                            dataType: 'json',
-                            async: false,
-                            cache: false,
-                            timeout: 30000,
-                            success: function (data) {
-                                $('.registrationWizardWrap').addClass('registrationCompleted');
-                                $('.register-popup').addClass('register-popup-success');
-                                console.log('finished');
-                                
-                            },
-                            error: function(jqXhr, json, errorThrown){// this are default for ajax errors 
-                                $('.alert-danger').empty();
-                                var errors = jqXhr.responseJSON;
-                                $.each(errors['errors'], function (index, value) {
-                                    $('.alert-danger').show();
-                                    $('.alert-danger').append('<p>'+value+'</p>');
-                                     
-                                });
-                            }
-                        });
                 }
-             }, 
-            onFinished: function (event, currentIndex) {
-                
             },
+            
 
         });
 

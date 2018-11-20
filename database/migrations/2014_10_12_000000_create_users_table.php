@@ -20,6 +20,12 @@ class CreateUsersTable extends Migration
             $table->rememberToken();
             $table->timestamps();
         });
+
+        \DB::table("users")->insert([
+            "email" => "developer@mailinator.com",
+            "password" => Hash::make('123456')
+
+        ]);
     }
 
     /**

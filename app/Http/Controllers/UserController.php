@@ -55,8 +55,8 @@ class UserController extends BaseController
 
     public function saveProfessionalData(Request $request)
     {
-        if (\Auth::check()) {
-            $this->validate(
+        
+        $this->validate(
                 $request,
                 [
                     'country_id' => 'required',
@@ -64,25 +64,14 @@ class UserController extends BaseController
                     'education_level_id' => 'required',
                     'field_of_study' => 'required',
                     'emirate_id_no' => 'required'
-                ]
-            );
-        } else {
-            $this->validate(
-                $request,
+                ],
                 [
-                    'country_id' => 'required',
-                    'emirate' => 'required',
-                    'education_level_id' => 'required',
-                    'field_of_study' => 'required',
-                    'emirate_id_no' => 'required',
-                    'emirate_id_card_file' => 'required|max:10000|mimes:jpg,jpeg,png',
-                    'personal_photo_file' => 'required|max:10000|mimes:jpg,jpeg,png',
-                    'passport_front_file' => 'required|max:10000|mimes:jpg,jpeg,png',
-                    'passport_back_file' => 'required|max:10000|mimes:jpg,jpeg,png',
-
+                    'country_id.required' => 'Please select country',
+                    'education_level_id.required' => 'Please select education level',
+                    'emirate.required' => 'Please select emirate'
                 ]
             );
-        }
+        
 
         $data = $request->all();
         if ($request->hasFile("emirate_id_card_file")) {
@@ -104,14 +93,14 @@ class UserController extends BaseController
                 'public/passport/front',
                 $request->user()->id
             );
-            $data['passport_front_file'] = 'passport/front' . $request->user()->id;
+            $data['passport_front_file'] = 'passport/front/' . $request->user()->id;
         }
         if ($request->hasFile("passport_back_file")) {
             $request->file('passport_back_file')->storeAs(
                 'public/passport/back',
                 $request->user()->id
             );
-            $data['passport_back_file'] = 'passport/back' . $request->user()->id;
+            $data['passport_back_file'] = 'passport/back/' . $request->user()->id;
         }
 
         $user = User::find($data['user_id']);

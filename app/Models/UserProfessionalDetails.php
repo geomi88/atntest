@@ -13,7 +13,7 @@ class UserProfessionalDetails extends Model
      *
      * @var array
      */
-    protected $fillable = ["country_id", "emirate", "education_level_id", "field_of_study", "is_working", "emirate_id_no", "emirate_id_card_file", "personal_photo_file", "personal_photo_file", "passport_back_file"
+    protected $fillable = ["country_id", "emirate", "education_level_id", "field_of_study", "is_working", "emirate_id_no", "emirate_id_card_file", "personal_photo_file", "personal_photo_file","passport_front_file", "passport_back_file"
          
     ];
     
